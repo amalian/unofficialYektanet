@@ -1,2 +1,2 @@
 # Yektanet WordPress plugin
-Connect WordPress to Yektant
+Connect WordPress to Yektanet
