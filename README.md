@@ -1,7 +1,7 @@
 
 # Yektanet WordPress plugin
 
-Connect WordPress to Yektant.com , place Yektant scripts and retarget products
+Connect WordPress to Yektanet.com , place Yektant scripts and retarget products
 
  (Yektant is an online advertising platform)
 
