@@ -6,18 +6,19 @@
  *
  * Plugin Name: yektanet
  * Plugin URI: https://www.amalian.ir/plugin/yektanet
- * Description:  Connect WordPress to Yektanet
+ * Description:  Connect WordPress to Yektanet.com
  * Version: 1.0.0
  * Author: Mojtaba Amalian
  * Author URI: https://www.amalian.ir/
  * Text Domain: yektanet
  * Domain Path: /languages
  *
- * License: AmalianLicense
- * License URI: http://www.amalian.ir/plugin/yektanet/license
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
+ * copyright : All rights reserved for Mojtaba Amalian.ir and Yektanet.com.
  */
-// don't call the file directly
 
+// don't call the file directly
 if (!defined('ABSPATH')) exit;
 
 global $yektanet;
@@ -25,6 +26,7 @@ $yektanet = new yektanet();
 
 define('yektanetScript', get_option('yektanetScript'));
 define('yektanetProdunctBrand', get_option('yektanetProdunctBrand'));
+
 
 
 class yektanet{
@@ -39,7 +41,7 @@ class yektanet{
     function yektanet_plugin_create_menu()
     {
 
-        add_menu_page('یکتانت' ,'یکتانت' , 'administrator', __FILE__, array($this,'yektanet_plugin_settings_page'),  $this->pluginUrl().'/assets/img/icon.png');
+        add_menu_page('یکتانت' ,'یکتانت' , 'administrator', __FILE__, array($this,'yektanet_plugin_settings_page'),  plugin_dir_url( __DIR__ ).'yektanet/assets/img/icon.png');
     }
     function register_yektanet_plugin_settings()
     {
@@ -84,11 +86,6 @@ class yektanet{
         echo yektanetScript;
     }
 
-    function pluginUrl($pluginName=null){
-        $pluginName=is_null($pluginName) ? $this->pluginName : $pluginName;
-        $pluginUrl=get_site_url().'/wp-content/plugins/'.$pluginName;
-        return $pluginUrl;
-    }
     function siteUrl(){
         $siteUrl=get_site_url().'';
         return $siteUrl;
@@ -108,7 +105,7 @@ class yektanet{
         return $englishNumbersOnly;
     }
 
-    function productInfo()
+    function yektanet_productInfo()
     {
 
         $server=$this->jsonApiServer()."/wc/store/products/";
@@ -154,16 +151,16 @@ class yektanet{
         <script>
         // Powered By Amalian.ir
         // plugin YektaNet : https://www.amalian.ir/plugin/yektanet
-        // YektaNet retargeting product detail
+        // YektaNet.com retargeting product detail
         var productInfo = {
-            sku: "<?=$sku;?>",
-            title: "<?=$name;?>",
-            image: '<?=$images;?>',
-            category: <?=$category;?>
-            price: <?=$price;?>,
-            discount: <?=$discount;?>,
+            sku: "<?php echo $sku; ?>",
+            title: "<?php echo $name;?>",
+            image: '<?php echo $images;?>',
+            category: <?php echo $category;?>
+            price: <?php echo $price;?>,
+            discount: <?php echo $discount;?>,
             currency: "IRT",
-            brand: "<?=$brand;?>",
+            brand: "<?php echo $brand;?>",
             isAvailable: true,
         }
         yektanet("product", "detail", productInfo);
@@ -175,7 +172,7 @@ class yektanet{
 
 
 
-    function productPurchase()
+    function yektanet_productPurchase()
     {
 
         $server=$this->jsonApiServer()."/wc/store/products/";
@@ -218,11 +215,11 @@ class yektanet{
         <script>
         // Powered By Amalian.ir
         // plugin YektaNet : https://www.amalian.ir/plugin/yektanet
-        // YektaNet retargeting product purchase
+        // YektaNet.com retargeting product purchase
         var purchaseInfo = {
-        sku: "<?=$sku; ?>",  // شناسه محصول
-        quantity: <?=$quantity; ?>,
-        price: <?=$price; ?>,       // تومان
+        sku: "<?php echo $sku; ?>",  // شناسه محصول
+        quantity: <?php echo $quantity; ?>,
+        price: <?php echo $price; ?>,       // تومان
         currency: "IRT",    // IRT for Toman
         yektanet("product", "purchase", purchaseInfo)
         </script>
@@ -237,7 +234,6 @@ class yektanet{
         global $wp_meta_boxes;
         wp_add_dashboard_widget('widgets_yektanet', __('یکتانت','yektanet'),  array($this,'admin_dashboard_widgets_yektanet') );
 
-
     }
 
     function admin_dashboard_widgets_yektanet()
@@ -250,8 +246,8 @@ class yektanet{
         add_action('admin_menu',array($this, 'yektanet_plugin_create_menu'));
         add_action('admin_init',array($this, 'register_yektanet_plugin_settings'));
         add_action('wp_head',array($this, 'yektanetHeader'));
-        add_action('woocommerce_single_product_summary',array($this, 'productInfo' ));
-        add_action('woocommerce_single_product_summary',array($this, 'productPurchase'));
+        add_action('woocommerce_single_product_summary',array($this, 'yektanet_productInfo' ));
+        add_action('woocommerce_single_product_summary',array($this, 'yektanet_productPurchase'));
         add_action('wp_dashboard_setup',array($this,'yektanet_widgets'));
     }
 
