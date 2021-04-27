@@ -22,32 +22,37 @@
 if (!defined('ABSPATH')) exit;
 
 global $unofficialYektanet;
-$unofficialYektanet = new $unofficialYektanet();
+$unofficialYektanet = new unofficialYektanet();
 
 define('unofficialYektanetScript', get_option('unofficialYektanetScript'));
 define('unofficialYektanetProductBrand', get_option('unofficialYektanetProductBrand'));
 
 
 
-class $unofficialYektanet{
+class unofficialYektanet{
 
-
+    private $id=0;
+    private $product;
 
     function __construct()
     {
         $this->init();
     }
-
-    function unofficialYektanet_plugin_create_menu()
-    {
-
-        add_menu_page('یکتانت' ,'یکتانت' , 'administrator', __FILE__, array($this,'unofficialYektanet_plugin_settings_page'),  plugin_dir_url( __DIR__ ).'unofficialYektanet/assets/img/icon.png');
+	function unofficialYektanet_plugin_create_menu() {
+        add_menu_page(
+			'YektaNet',
+			'YektaNet',
+			'manage_options',
+			'unofficialYektanetSettingsPage.php',
+			array($this,'unofficialYektanet_plugin_settings_page'),
+			plugins_url('unofficialYektanet/assets/img/icon.png') 
+		);
     }
-    function register_yektanet_plugin_settings()
+    function register_unofficialYektanet_plugin_settings_init()
     {
         //register our settings
-        register_setting('unofficialYektanetsettings', 'unofficialYektanetScript');
-        register_setting('unofficialYektanetsettings', 'unofficialYektanetProductBrand');
+        register_setting('unofficialYektanetSettings', 'unofficialYektanetScript');
+        register_setting('unofficialYektanetSettings', 'unofficialYektanetProductBrand');
     }
     function unofficialYektanet_plugin_settings_page()
     {
@@ -57,8 +62,8 @@ class $unofficialYektanet{
 
             <form method="post" action="options.php">
 
-                <?php settings_fields('unofficialYektanetsettings'); ?>
-                <?php do_settings_sections('unofficialYektanetsettings'); ?>
+                <?php settings_fields('unofficialYektanetSettings'); ?>
+                <?php do_settings_sections('unofficialYektanetSettings'); ?>
 
                 <table class="form-table">
 
@@ -85,21 +90,12 @@ class $unofficialYektanet{
     function unofficialYektanetHeader(){
         echo unofficialYektanetScript;
     }
-
-    private $siteUrl='';
-    private $id=0;
-    private $product;
-
-    public function setSiteUrl($siteUrl)
-    {
-         $this->siteUrl=$siteUrl;
-    }
     public function setId($id)
     {
          $this->id=$id;
     }
     public function run(){
-        $getData=file_get_contents($this->siteUrl.'/wp-json/wc/store/products/'.$this->id);
+        $getData=file_get_contents(rest_url('/wc/store/products/'.$this->id));
         $data=json_decode($getData,true);
         $this->product= (object) $data;
     }
@@ -116,7 +112,6 @@ class $unofficialYektanet{
     }
     function unofficialYektanet_productInfo(){
 
-        $this->setSiteUrl(get_site_url());
         $this->setId(get_the_ID());
         $this->run();
 
@@ -170,7 +165,6 @@ class $unofficialYektanet{
     {
 
 
-        $this->setSiteUrl(get_site_url());
         $this->setId(get_the_ID());
         $this->run();
 
@@ -232,7 +226,7 @@ class $unofficialYektanet{
 
     function init(){
         add_action('admin_menu',array($this, 'unofficialYektanet_plugin_create_menu'));
-        add_action('admin_init',array($this, 'register_unofficialYektanet_plugin_settings'));
+        add_action('admin_init',array($this, 'register_unofficialYektanet_plugin_settings_init'));
         add_action('wp_head',array($this, 'unofficialYektanetHeader'));
         add_action('woocommerce_single_product_summary',array($this, 'unofficialYektanet_productInfo' ));
         add_action('woocommerce_single_product_summary',array($this, 'unofficialYektanet_productPurchase'));
