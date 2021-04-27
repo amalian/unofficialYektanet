@@ -1,6 +1,6 @@
-=== yektanet ===
+=== unofficialYektanet ===
 Contributors: amalian
-Donate link: https://amalian.ir/plugin/yektanet/donate
+Donate link: https://amalian.ir/plugin/unofficialYektanet/donate
 Tags: yektanet,تبلیغات,ریتارگتینگ,ads,یکتانت
 Requires at least: 5.5
 Tested up to: 5.5
@@ -18,7 +18,7 @@ Connect WordPress to Yektanet.com
 
 Connect WordPress to Yektant to place Yektant scripts and retarget products
 
- (Yektant is an online advertising platform)
+ (Yektanet is an online advertising platform)
 
 == Screenshots ==
 

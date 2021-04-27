@@ -1,5 +1,5 @@
 
-# Yektanet WordPress plugin
+# Unofficial Yektanet WordPress plugin
 
 Connect WordPress to [Yektanet.com](https://www.yektanet.com/) , place Yektanet scripts and retarget products
 
