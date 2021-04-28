@@ -3,7 +3,7 @@ Contributors: amalian
 Donate link: https://amalian.ir/plugin/unofficialYektanet/donate
 Tags: yektanet,تبلیغات,ریتارگتینگ,ads,یکتانت
 Requires at least: 5.5
-Tested up to: 5.5
+Tested up to: 5.7
 Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv3
